@@ -5,6 +5,7 @@ from tkinter import *
 from tkinter import ttk
 import random
 from bubbleSort import bubble_sort
+from selectionSort import selection_sort
 
 root = Tk()
 root.title('Sorting Algorithms')
@@ -18,7 +19,7 @@ data = []
 def drawData(data, colorArray):
     canvas.delete("all")
     c_height = 380
-    c_width = 600
+    c_width = 590
     x_width = c_width / (len(data) + 1) #Changes based on the data being entred, bar size
     offset = 30
     spacing = 10
@@ -55,6 +56,8 @@ def StartAlgorithm(): #This should be changed to accept any algorithm
 
     if algName == 'Bubble Sort':
         bubble_sort(data, drawData, speedScale.get())
+    if algName == 'Selection Sort':
+        selection_sort(data, drawData, speedScale.get())
     
 
 UI_frame = Frame(root, width = 600, height= 200, bg='grey')
@@ -70,7 +73,7 @@ algMenu = ttk.Combobox(UI_frame, textvariable=selected_alg, values=['Quick Sort'
 algMenu.grid(row=0, column=1, padx=5, pady=5)
 algMenu.current(0)
 
-speedScale = Scale(UI_frame, from_=0.1, to=2.0, length=200, digits=2, resolution=0.2, orient=HORIZONTAL, label="Select Speed (sec)")
+speedScale = Scale(UI_frame, from_=0.1, to=2.0, length=200, digits=2, resolution=0.1, orient=HORIZONTAL, label="Select Speed (sec)")
 speedScale.grid(row=0, column=2, padx=5, pady=5)
 Button(UI_frame, text="Start", command=StartAlgorithm, bg='red').grid(row=0, column=3, padx=5, pady=5)
 
@@ -128,42 +131,5 @@ def insertionSort(sequenceA):
             i = i - 1 #Stepping down the list
 
     return sequenceA
-
-#Sets first item as minimum, every item smaller than that moves down the list, sorted list ends up on the left
-#Less swaps needed than bubble sort
-def selectionSort(sequenceA):
-    indexingLength = range(0, len(sequenceA) - 1)
-
-    for i in indexingLength:
-        minValue = i #This changes the default min with each itteration
-
-        for j in range(i + 1, len(sequenceA)): # All items to the right of where i is
-            if sequenceA[j] < sequenceA[minValue]:
-                minValue = j 
-
-        if minValue != i:
-            sequenceA[minValue], sequenceA[i] = sequenceA[i], sequenceA[minValue]
-
-    return sequenceA
-
-#Least efficent
-#"bubbles" higher numbers to the top of the list
-def bubbleSort(list):
-    indexingLength = len(list) - 1
-    sorted = False
-
-    while not sorted:
-         sorted = True
-         for i in range(0, indexingLength):
-             if list[i] > list[i + 1]:
-                 sorted = False
-                 list[i], list[i + 1] = list[i + 1], list[i]
-
-    return list
-
-# print("Quick Sort: ", quickSort(makeRandomSequence()))
-# print("Insertion Sort: ", insertionSort(makeRandomSequence()))
-# print("Selection Sort: ", selectionSort(makeRandomSequence()))
-# print("Bubble Sort: ", bubbleSort(makeRandomSequence()))
 
 root.mainloop()
