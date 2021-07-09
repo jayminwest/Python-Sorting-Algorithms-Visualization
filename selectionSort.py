@@ -8,7 +8,7 @@ def selection_sort(data, drawData, timeTick):
         drawData(data, ['green' if x < i else 'red' for x in range(len(data))])
 
         for j in range(i + 1, len(data)): # All items to the right of where i is
-            drawData(data, ['grey' if x == j else 'green' if x == i else 'red' for x in range(len(data))])
+            drawData(data, ['grey' if x == j else 'green' if x <= i else 'red' for x in range(len(data))])
             time.sleep(timeTick)
 
             if data[j] < data[minValue]:
